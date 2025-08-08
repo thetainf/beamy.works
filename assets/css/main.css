@@ -4058,3 +4058,8 @@ body.is-ie #wrapper>section>.content>section {
 #summaryBox.flash {
   background-color: #d4edda; /* zöldes háttér */
 }
+  .no-underline {
+    text-decoration: none !important;
+    color: inherit;
+  }
+ 
