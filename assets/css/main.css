@@ -2400,6 +2400,15 @@ input[type="radio"]+label:before {
 	font-size: 18px;
 }
 
+.product-discount {
+	font-size: 14px;
+	line-height: 0;
+	margin: 0px;
+	white-space: normal;
+}
+
+
+
 .select-btn {
 	padding: 5px 10px;
 	font-size: 14px;
@@ -4047,19 +4056,21 @@ body.is-ie #wrapper>section>.content>section {
 	}
 
 }
+
 #summaryBox {
-  transition: background-color 0.5s ease;
-  padding: 10px;
-  border: 1px solid #ccc;
-  white-space: pre-wrap;
-  margin-top: 20px;
+	transition: background-color 0.5s ease;
+	padding: 10px;
+	border: 1px solid #ccc;
+	white-space: pre-wrap;
+	margin-top: 20px;
 }
 
 #summaryBox.flash {
-  background-color: #d4edda; /* zöldes háttér */
+	background-color: #d4edda;
+	/* zöldes háttér */
 }
-  .no-underline {
-    text-decoration: none !important;
-    color: inherit;
-  }
- 
+
+.no-underline {
+	text-decoration: none !important;
+	color: inherit;
+}
