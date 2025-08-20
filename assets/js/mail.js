@@ -1,5 +1,6 @@
 (function () {
-  const TO_EMAIL = "hello@beamy.works"; 
+  const TO_EMAIL = "hello@beamy.works";
+  const ASZF_URL = "ASZF.html";
 
   function sanitizeText(t) {
     return t.replace("❌", "").trim();
@@ -17,6 +18,7 @@
   function updateMailLink() {
     const items = Array.from(document.querySelectorAll("#productList li"));
     const header = document.getElementById("selectedProductsHeader");
+    const termsNotice = document.getElementById("termsNotice");
     const mailLink = document.getElementById("mailLink");
     const copyLink = document.getElementById("copyLink");
 
@@ -24,12 +26,22 @@
 
     if (items.length === 0) {
       header.textContent = "Nincs kiválasztott termék.";
+      if (termsNotice) termsNotice.style.display = "none";
       mailLink.style.display = "none";
       copyLink.style.display = "none";
       return;
     }
 
     header.textContent = "Kiválasztott termékek:";
+
+   
+    if (termsNotice) {
+      termsNotice.innerHTML =
+        `Kapcsolatfelvételt kezdeményezve kijelented, ` +
+        `hogy megismerted és elfogadod az ` +
+        `<a href="${ASZF_URL}" target="_blank" rel="noopener noreferrer">Általános Szerződési Feltételeket</a>.`;
+      termsNotice.style.display = "block";
+    }
 
     const lines = items.map(li => sanitizeText(li.textContent));
     const subjectText = "Megrendelés – kiválasztott termékek";
@@ -39,7 +51,7 @@
     const body = encodeURIComponent(bodyText);
     const href = `mailto:${encodeURIComponent(TO_EMAIL)}?subject=${subject}&body=${body}`;
 
-    // Mailto visible only if not too long
+    // Mailto csak ha nem túl hosszú
     if (href.length > 1800) {
       mailLink.style.display = "none";
     } else {
@@ -47,23 +59,21 @@
       mailLink.style.display = "inline";
     }
 
-    // Always show copy link when items exist
+    // Másolás link mindig látszik ha van tétel
     copyLink.style.display = "inline";
     copyLink.setAttribute("href", "javascript:void(0)");
     copyLink.setAttribute("role", "button");
 
-    // Tiny, non-intrusive feedback (text swap for 1.5s)
+    // Visszajelzés popup nélkül (szövegcsere 1.5s)
     copyLink.onclick = async (e) => {
       e.preventDefault();
       const text = `${bodyText}`;
 
-      // Try modern clipboard first
       let copied = false;
       try {
         await navigator.clipboard.writeText(text);
         copied = true;
       } catch {
-        // Fallback for non-secure contexts
         const ta = document.createElement("textarea");
         ta.value = text;
         ta.style.position = "fixed";
@@ -75,7 +85,6 @@
         document.body.removeChild(ta);
       }
 
-      // Swap text briefly if copied (no popup)
       if (copied) {
         const original = copyLink.textContent;
         copyLink.textContent = "✓ Másolva";
